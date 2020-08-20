@@ -8,9 +8,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --mode development --open --hot",
     "build": "webpack --mode production",
-    "eslint": "eslint --cache --ext .js,.jsx,.ts,.tsx src",
+    "eslint": "eslint --cache --ext .ts,.tsx src",
     "eslint:dump": "eslint --print-config ./.eslintrc.json",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "create": "node cli/create.js --path"
   },
   "repository": {
     "type": "git",
@@ -28,7 +29,7 @@
     }
   },
   "lint-staged": {
-    "*.{js, jsx, ts, tsx}": [
+    "*.{ts, tsx}": [
       "npm run eslint --max-warnings=0",
       "prettier --write --config prettierrc.yaml"
     ]
@@ -62,9 +63,12 @@
     "eslint-plugin-react-svg": "0.0.4",
     "exports-loader": "^1.1.0",
     "file-loader": "^6.0.0",
+    "fs": "0.0.1-security",
     "html-webpack-plugin": "^4.3.0",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.9",
+    "minimist": "^1.2.5",
+    "path": "^0.12.7",
     "prettier": "2.0.5",
     "sass": "^1.26.8",
     "sass-loader": "^8.0.2",

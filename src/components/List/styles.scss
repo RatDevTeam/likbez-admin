@@ -1,0 +1,42 @@
+@import "~Styles/variables.scss";
+.list {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  max-height: 100%;
+  overflow: auto;
+  border: 1px solid $dark-blue;
+  border-bottom-right-radius: 6px;
+  border-top-right-radius: 6px;
+  box-sizing: border-box;
+  &::-webkit-scrollbar-track
+  {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 10px;
+    background-color: #F5F5F5;
+  }
+
+  &::-webkit-scrollbar
+  {
+    width: 12px;
+    opacity: 1;
+  }
+
+  &::-webkit-scrollbar-thumb
+  {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: $dark-blue;
+  }
+  &__item {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    min-height: 30px;
+    cursor: pointer;
+    padding: 0 10px;
+    &__active {
+      background-color: #087e8b;
+    }
+  }
+}

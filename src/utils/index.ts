@@ -1,3 +1,5 @@
+import { ListItem } from '../schemas/list.schema';
+
 export const convertDate = (date: string): any => {
 	if (date) {
 		return new Intl.DateTimeFormat('ru', {
@@ -19,28 +21,30 @@ export const inNotEmptyArray = (item: any[]): boolean => {
 	return false;
 };
 
-export const getMainMenuList = (authorized: boolean): any[] => {
-	if (authorized) {
-		return [
-			{ id: 1, routerName: 'courses.list', label: 'Курсы' },
-			{ id: 2, routerName: 'courses.list', label: 'Вебинары' },
-			{ id: 3, routerName: 'courses.list', label: 'Преподаватели' },
-			{
-				id: 4,
-				routerName: 'student',
-				label: 'Моя страница',
-				submenu: [
-					{ id: 1, routerName: 'student.courses', label: 'Курсы' },
-					{ id: 2, routerName: 'student.scripts', label: 'Скрипты' },
-					{ id: 3, routerName: 'student.home', label: 'Домашнее задание' },
-				],
-			},
-		];
-	}
+export const getMainMenuList = (): any[] => {
 	return [
-		{ id: 1, routerName: 'home', label: 'О нас' },
-		{ id: 2, routerName: 'courses.list', label: 'Курсы' },
-		{ id: 3, routerName: 'courses.list', label: 'Вебинары' },
-		{ id: 4, routerName: 'courses.list', label: 'Преподаватели' },
+		{
+			id: 1,
+			routerName: 'courses',
+			label: 'Курсы',
+			submenu: [{ id: 1, routerName: 'courses.add', label: 'Добавить курс' }],
+		},
+		{
+			id: 2,
+			routerName: 'home',
+			label: 'Дом',
+			submenu: [{ id: 1, routerName: 'home.add', label: 'Добавить курс' }],
+		},
 	];
+};
+
+export const getList = (collection: any[], routerName: string): ListItem[] => {
+	return collection.map(
+		(el) =>
+			new ListItem({
+				id: el._id,
+				title: el.title ? el.title : el.name,
+				routerName,
+			})
+	);
 };
