@@ -8,10 +8,10 @@ export const convertDate = (date: string): any => {
 			day: '2-digit',
 		}).format(new Date(date));
 	}
-	return 'Дата отстутствует';
+	return 'Дата отсутствует';
 };
 
-export const isNotNulAdnUndefined = (item: any): boolean =>
+export const isNotNullAndUndefined = (item: any): boolean =>
 	item !== undefined && item !== null;
 
 export const inNotEmptyArray = (item: any[]): boolean => {
@@ -38,13 +38,13 @@ export const getMainMenuList = (): any[] => {
 	];
 };
 
-export const getList = (collection: any[], routerName: string): ListItem[] => {
-	return collection.map(
+export const getList = (collection: any[], routerName: string): ListItem[] =>
+	collection.map(
 		(el) =>
 			new ListItem({
 				id: el._id,
 				title: el.title ? el.title : el.name,
+				color: el.subject.color,
 				routerName,
 			})
 	);
-};

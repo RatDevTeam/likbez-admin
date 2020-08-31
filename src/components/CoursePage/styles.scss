@@ -1,45 +1,15 @@
 .course {
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  &__column {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 3;
+  &__title{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
   }
-  &__title {
-    h2 {
-      margin: 0;
-      padding: 0;
-    }
+  &__section {
+    display: flex;
   }
-    &__img-block {
-      display: flex;
-      align-items: center;
-      img {
-        align-self: flex-start;
-        width: 150px;
-        height: 150px;
-        background: #ccc;
-      }
-    }
-    &__price {
-    }
-    &__date {
-      display: flex;
-
-    }
-    &__description-block {
-
-    }
-    &__data {
-
-    }
-    &__teachers {
-
-    }
-    &__home-work {
-
-    }
-    &__scripts {
-    }
+  &__img {
+    height: 100%;
+  }
 }

@@ -4,7 +4,7 @@ import './styles.scss';
 interface ICourseAdd {}
 
 const CourseAdd: React.FC<ICourseAdd> = () => {
-	return <div>Add</div>;
+	return <h3>Добавить новый курс</h3>;
 };
 
 export default CourseAdd;

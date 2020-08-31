@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useRoute } from 'react-router5';
 
-import './styles.scss';
 import List from '../List/List';
 import { getList } from '../../utils';
 import { Course } from '../../schemas/course.schema';
@@ -10,6 +9,8 @@ import CoursePage from '../CoursePage/CoursePage';
 import CourseAdd from '../CourseAdd/CourseAdd';
 import { Subject } from '../../schemas/subject.schema';
 import { Teacher } from '../../schemas/teacher.schema';
+import Stub from '../Stub/Stub';
+import './styles.scss';
 
 interface ICoursesPage {
 	courses: Course[];
@@ -31,7 +32,7 @@ const CoursesPage: React.FC<ICoursesPage> = ({
 	getTeachers,
 }) => {
 	const [list, setList] = useState<ListItem[]>([]);
-	const { route } = useRoute();
+	const { route, router } = useRoute();
 	const { id } = route.params;
 	useEffect(() => {
 		getCourses();
@@ -44,8 +45,10 @@ const CoursesPage: React.FC<ICoursesPage> = ({
 			setList(getList(courses, 'courses.course'));
 		}
 	}, [courses]);
-
-	const routing = () => {
+	const openAddNewCourse = () => {
+		router.navigate('courses.add');
+	};
+	const navigateToCourse = () => {
 		if (route.name === 'courses.course' && id) {
 			return (
 				<CoursePage
@@ -59,18 +62,21 @@ const CoursesPage: React.FC<ICoursesPage> = ({
 			return <CourseAdd />;
 		}
 		return (
-			<div className="courses__course__empty">
-				<span>Empty</span>
+			<div className="courses__empty">
+				<Stub message="Чтобы начать, выберите курс" />
 			</div>
 		);
 	};
 
 	return !loadingCourses ? (
-		<div className="courses">
-			<div className="courses__list">
-				<List list={[...list]} />
+		<div className="courses layout">
+			<h1 className="heading__h1">Курсы</h1>
+			<div className="courses__body">
+				<div className="courses__body__list">
+					<List list={[...list]} onAddTolist={openAddNewCourse} />
+				</div>
+				{navigateToCourse()}
 			</div>
-			<div className="courses__course">{routing()}</div>
 		</div>
 	) : (
 		<span>Загрузка</span>
