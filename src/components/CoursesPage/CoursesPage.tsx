@@ -16,20 +16,24 @@ interface ICoursesPage {
 	courses: Course[];
 	loadingCourses: boolean;
 	getCourses: () => void;
+	updateCourse: (id: string, course: Course) => void;
 	subjects: Subject[];
 	getSubjects: () => void;
 	teachers: Teacher[];
 	getTeachers: () => void;
+	courseErrors?: any;
 }
 
 const CoursesPage: React.FC<ICoursesPage> = ({
 	courses,
 	loadingCourses,
 	getCourses,
+	updateCourse,
 	subjects,
 	getSubjects,
 	teachers,
 	getTeachers,
+	courseErrors,
 }) => {
 	const [list, setList] = useState<ListItem[]>([]);
 	const { route, router } = useRoute();
@@ -52,9 +56,11 @@ const CoursesPage: React.FC<ICoursesPage> = ({
 		if (route.name === 'courses.course' && id) {
 			return (
 				<CoursePage
+					updateCourse={updateCourse}
 					courseData={courses.find((c) => c._id === id)}
 					subjects={subjects}
 					teachers={teachers}
+					courseErrors={courseErrors}
 				/>
 			);
 		}

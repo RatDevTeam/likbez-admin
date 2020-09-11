@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './styles.scss';
 import { useRoute } from 'react-router5';
 import { AddCircle } from 'grommet-icons';
@@ -11,17 +11,21 @@ interface IList {
 
 const List: React.FC<IList> = ({ list, onAddTolist }) => {
 	const { router } = useRoute();
-	const [activeId, setActiveId] = useState<string>();
+	const [activeId, setActiveId] = useState<string | null>();
 
 	const handlerClickItem = (item: ListItem) => {
 		if (item.id === activeId) {
 			router.navigate('courses');
-			setActiveId('');
+			setActiveId(null);
 			return;
 		}
 		router.navigate(item.routerName, { id: item.id });
 		setActiveId(item.id);
+		localStorage.setItem('activeId', item.id);
 	};
+	useEffect(() => {
+		setActiveId(localStorage.getItem('activeId'));
+	}, []);
 
 	return (
 		<div className="list">
@@ -31,7 +35,11 @@ const List: React.FC<IList> = ({ list, onAddTolist }) => {
 					role="button"
 					tabIndex={0}
 					onKeyDown={() => onAddTolist()}
-					onClick={() => onAddTolist()}
+					onClick={() => {
+						onAddTolist();
+						setActiveId(null);
+						localStorage.removeItem('activeId');
+					}}
 				>
 					<AddCircle color="white" />
 					<span className="list__addButton--text">Добавить</span>
@@ -49,11 +57,12 @@ const List: React.FC<IList> = ({ list, onAddTolist }) => {
 					}}
 					onKeyDown={() => handlerClickItem(item)}
 				>
-					<div
-						className="list__item__decoration"
-						style={{ backgroundColor: item.color }}
-					/>
-
+					{item.color && (
+						<div
+							className="list__item__decoration"
+							style={{ backgroundColor: item.color }}
+						/>
+					)}
 					<span className="text">{item.title}</span>
 				</div>
 			))}

@@ -10,6 +10,9 @@ export const convertDate = (date: string): any => {
 	}
 	return 'Дата отсутствует';
 };
+export const compareDates = (date1: string, date2: string): boolean => {
+	return convertDate(date1) === convertDate(date2);
+};
 
 export const isNotNullAndUndefined = (item: any): boolean =>
 	item !== undefined && item !== null;

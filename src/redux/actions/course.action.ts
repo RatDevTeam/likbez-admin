@@ -71,16 +71,17 @@ export const addCourses = () => (dispatch: Dispatch<AppActionType>) => {
 		});
 };
 
-export const updateCourse = (id: string, course: Course) => (
+export const updateCourse = (id: string, course: Course, data: FormData) => (
 	dispatch: Dispatch<AppActionType>
 ) => {
 	dispatch(courseLoading());
 	axios
-		.put(`/courses/update/${id}`, course)
+		.put(`/courses/update/${id}`, data, { params: course })
 		.then((res) => {
 			dispatch(courseUpdate(res.data));
 		})
 		.catch((err) => {
+			console.log(err.message);
 			dispatch(courseErr(err.message));
 		});
 };

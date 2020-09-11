@@ -1,5 +1,6 @@
 import { Subject } from './subject.schema';
 import { Reducer } from './reducer.schema';
+import { compareDates } from '../utils';
 
 export interface ICourseReducer extends Reducer<Course[]> {
 	message: string | null;
@@ -56,6 +57,20 @@ export class Course implements ICourse {
 		this.teachers = teachers;
 		this.homeWorks = homeWorks;
 		this.scripts = scripts;
+	}
+
+	static equals(course: Course, anotherCourse: Course): boolean {
+		return (
+			course.title === anotherCourse.title &&
+			course.description === anotherCourse.description &&
+			course.imageUrl === anotherCourse.imageUrl &&
+			compareDates(course.dateStart, anotherCourse.dateStart) &&
+			compareDates(course.dateFinish, anotherCourse.dateFinish) &&
+			course.type === anotherCourse.type &&
+			//	course.imageUrl === anotherCourse.imageUrl &&
+			Subject.equals(course.subject, anotherCourse.subject) &&
+			course.price === anotherCourse.price
+		);
 	}
 }
 

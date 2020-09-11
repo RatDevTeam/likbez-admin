@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './styles.scss';
-import { Edit } from 'grommet-icons';
+import { DocumentUpload, Edit } from 'grommet-icons';
 import { Course, CourseTypes } from '../../schemas/course.schema';
 import { Subject } from '../../schemas/subject.schema';
 import { Teacher } from '../../schemas/teacher.schema';
@@ -12,17 +12,17 @@ interface ICoursePage {
 	courseData: Course | undefined;
 	subjects: Subject[] | undefined;
 	teachers: Teacher[] | undefined;
+	updateCourse: (id: string, course: Course, data: FormData | null) => void;
+	courseErrors: any,
 }
 
-const CoursePage: React.FC<ICoursePage> = ({
-	courseData,
-	subjects,
-	teachers,
-}) => {
+const CoursePage: React.FC<ICoursePage> = ({ courseData, subjects, teachers, updateCourse, courseErrors}) => {
 	const [course, setCourse] = useState<Course | null>(null);
 	const [, setUpdated] = useState();
+	const [isChanged, setIsChanged] = useState<boolean>(false);
 	const previewRef = useRef<HTMLInputElement>(null);
-	const [previewPhoto, setPreviewPhoto] = useState<FileList | null>(null);
+	const [previewPhoto, setPreviewPhoto] = useState<File | null>(null);
+	const [status, setStatus] = useState<string| null>(null);
 
 	useEffect(() => {
 		if (courseData) {
@@ -33,10 +33,31 @@ const CoursePage: React.FC<ICoursePage> = ({
 		}
 	}, [courseData]);
 
+	useEffect(() => {
+		if (courseData && course) {
+			setIsChanged(!Course.equals(course, courseData));
+		}
+	}, [course]);
+
 	const changeSubject = (type: string) => {
 		const sub = subjects && subjects.find((subj) => subj.type === type);
 		if (sub) {
 			defaultChange('subject', sub);
+		}
+	};
+	const handleSubmit = (e: any) => {
+		e.preventDefault();
+		if (course) {
+			const formData = new FormData();
+			if (previewPhoto) formData.append('image', previewPhoto);
+			updateCourse(course._id, course, formData);
+			if(!courseErrors) {
+				setIsChanged(false);
+				setStatus('Курс обновлен');
+			}
+			else {
+				setStatus('Ошибка!')
+			}
 		}
 	};
 
@@ -51,41 +72,53 @@ const CoursePage: React.FC<ICoursePage> = ({
 
 	return course ? (
 		<div className="course">
-				<div className="course__title">
-					<h2 className="heading__h2">{course.title}</h2> <Edit color='#0B3954' style={{marginTop: '20px'}}/>
-				</div>
+			{status && <div>{status}</div>}
+			<div className="course__title">
+				<input type='text' className="heading__h2" value={course.title} onChange={(e) => defaultChange('title', e.target.value)}
+				/>
+				{isChanged && (<div className='course__title__info'>
+					<Edit color='#C1CFDA' />
+					<span className='course__title__info__message'>есть несохраненные изменения</span>
+				</div>)}
+			</div>
 			<fieldset>
 				<legend>Описание курса</legend>
 				<div className='course__section'>
-				<div className="course__img">
-					<button
-						type="button"
-						onClick={() => previewRef.current && previewRef.current.click()}
-						onKeyDown={() => previewRef.current && previewRef.current.click()}>
-						<img
-							alt="Изображение курса"
-							src={previewPhoto ? URL.createObjectURL(previewPhoto) : course.imageUrl }
+					<div className="course__img">
+
+						<button
+							type="button"
+							onClick={() => previewRef.current && previewRef.current.click()}
+							onKeyDown={() => previewRef.current && previewRef.current.click()}>
+							<div className='course__img__icon'>
+								<DocumentUpload color={!previewPhoto ? '#C1CFDA' : '#FFF'} size='large' />
+							</div>
+							<img
+								className='course__img__preview'
+								alt=""
+								src={previewPhoto ? URL.createObjectURL(previewPhoto) : course.imageUrl}
+							/>
+						</button>
+						<input
+							style={{ display: 'none' }}
+							type="file"
+							accept="image"
+							ref={previewRef}
+							onChange={(event: any) => setPreviewPhoto(event.target.files[0])}
 						/>
-					</button >
-					<input
-						style={{ visibility: 'hidden' }}
-						type="file"
-						accept="image/*"
-						ref={previewRef}
-						onChange={(event: any) => setPreviewPhoto(event.target.files[0])}
-					/>
-				</div>
-				<div className="course__description">
+					</div>
+					<div className="course__description">
 					<textarea
 						value={course.description}
+						placeholder='Введите описание курса'
 						onChange={(e) => defaultChange('description', e.target.value)}
 					/>
-				</div>
+					</div>
 				</div>
 			</fieldset>
 			<fieldset>
 				<legend>Даты</legend>
-				<div className="course__date">
+				<div className="course__section">
 					<span>Начало курса</span>
 					<input
 						type="datetime-local"
@@ -96,76 +129,71 @@ const CoursePage: React.FC<ICoursePage> = ({
 					<input
 						type="datetime-local"
 						value={course.dateFinish.slice(0, 16)}
-						onChange={(e) => {course.dateFinish = e.target.value}}
+						onChange={(e) => {
+							course.dateFinish = e.target.value;
+						}}
 					/>
 				</div>
 			</fieldset>
 			<fieldset>
 				<legend>Тип и стоимость</legend>
 				<div className='course__section'>
-				<div className="course__type">
-					<select
-						value={course.type}
-						onChange={(e) => defaultChange('type', e.target.value)}
+					<select className='ui-select'
+									value={course.type}
+									onChange={(e) => defaultChange('type', e.target.value)}
 					>
 						<option value={CourseTypes.MASTER}>Мастер курс</option>
 						<option value={CourseTypes.COURSES}>Спецкурс</option>
 					</select>
 					<select
+						className='ui-select'
 						value={course.subject.type}
-						onChange={(e) => {changeSubject(e.target.value)}}
+						onChange={(e) => {
+							changeSubject(e.target.value);
+						}}
 					>
 						{subjects &&
 						subjects.map((subj) => (
 							<option value={subj.type}>{subj.title}</option>
 						))}
 					</select>
-				</div>
-				<div className="course__price">
-					<input
-						type="number"
-						min="0"
-						value={course.price}
-						onChange={(e) => defaultChange('price', e.target.value)}
-					/>
-				</div>
-					<span>Руб.</span>
+					<div className="course__section__price">
+						<input
+							type="number"
+							min="0"
+							value={course.price}
+							onChange={(e) => defaultChange('price', e.target.value)}
+						/>
+						<span>(pуб.)</span>
+					</div>
 				</div>
 			</fieldset>
-<fieldset>
-	<legend>Преподаватель</legend>
-	<div className="course__teachers">
-		<select
-			multiple
-		>
-			{teachers &&
-			teachers.map((teach) => (
-				<option value={teach._id}>{teach.name}</option>
-			))}
-		</select>
-	</div>
-</fieldset>
+			<fieldset>
+				<legend>Преподаватель</legend>
+				<div className="course__teachers">
+					<select className='ui-select'
+									multiple
+					>
+						{teachers &&
+						teachers.map((teach) => (
+							<option value={teach._id}>{teach.name}</option>
+						))}
+					</select>
+				</div>
+			</fieldset>
 			<fieldset>
 				<legend>Скрипты</legend>
 				<span>Вставьте ссылку для доступа к Google Drive:</span>
 				<input type='text' />
 			</fieldset>
 			<fieldset>
-				<legend>Загрузка домашних работ:</legend>
-				<div>Добавить ДЗ</div>
+				<legend>Домашние задания</legend>
+				<button type='button'>Добавить ДЗ</button>
+				<input type="file" />
 			</fieldset>
-
-
-
-				<div className="course__home-work">
-					<input type="file" />
-				</div>
-			<div>
-
-				<div className="course__scripts">
-					<input type="file" />
-				</div>
-			</div>
+			<button className='course__button ui-button' type='button' onClick={(e) => handleSubmit(e)}
+							disabled={!isChanged}>Сохранить изменения
+			</button>
 		</div>
 	) : (
 		<h1>hello</h1>
