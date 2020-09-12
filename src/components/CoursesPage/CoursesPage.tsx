@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useRoute } from 'react-router5';
 
 import List from '../List/List';
@@ -6,7 +6,6 @@ import { getList } from '../../utils';
 import { Course } from '../../schemas/course.schema';
 import { ListItem } from '../../schemas/list.schema';
 import CoursePage from '../CoursePage/CoursePage';
-import CourseAdd from '../CourseAdd/CourseAdd';
 import { Subject } from '../../schemas/subject.schema';
 import { Teacher } from '../../schemas/teacher.schema';
 import Stub from '../Stub/Stub';
@@ -21,7 +20,9 @@ interface ICoursesPage {
 	getSubjects: () => void;
 	teachers: Teacher[];
 	getTeachers: () => void;
+	addCourse: () => void;
 	courseErrors?: any;
+	isCourseLoading: boolean;
 }
 
 const CoursesPage: React.FC<ICoursesPage> = ({
@@ -34,6 +35,7 @@ const CoursesPage: React.FC<ICoursesPage> = ({
 	teachers,
 	getTeachers,
 	courseErrors,
+	isCourseLoading,
 }) => {
 	const [list, setList] = useState<ListItem[]>([]);
 	const { route, router } = useRoute();
@@ -44,6 +46,8 @@ const CoursesPage: React.FC<ICoursesPage> = ({
 		getTeachers();
 	}, []);
 
+	const checkLength = () => {};
+	useMemo(() => {}, [checkLength]);
 	useEffect(() => {
 		if (courses) {
 			setList(getList(courses, 'courses.course'));
@@ -56,16 +60,17 @@ const CoursesPage: React.FC<ICoursesPage> = ({
 		if (route.name === 'courses.course' && id) {
 			return (
 				<CoursePage
-					updateCourse={updateCourse}
+					saveCourse={updateCourse}
 					courseData={courses.find((c) => c._id === id)}
 					subjects={subjects}
 					teachers={teachers}
 					courseErrors={courseErrors}
+					isCourseLoading={isCourseLoading}
 				/>
 			);
 		}
 		if (route.name === 'courses.add') {
-			return <CourseAdd />;
+			return <div>boo</div>;
 		}
 		return (
 			<div className="courses__empty">
@@ -85,7 +90,7 @@ const CoursesPage: React.FC<ICoursesPage> = ({
 			</div>
 		</div>
 	) : (
-		<span>Загрузка</span>
+		<span>Загрузка...</span>
 	);
 };
 

@@ -4,25 +4,26 @@ import { DocumentUpload, Edit } from 'grommet-icons';
 import { Course, CourseTypes } from '../../schemas/course.schema';
 import { Subject } from '../../schemas/subject.schema';
 import { Teacher } from '../../schemas/teacher.schema';
+import Alert from '../Alert/Alert';
 
 // eslint-disable-next-line prettier/prettier
 type CourseKeys = keyof Course;
 
 interface ICoursePage {
-	courseData: Course | undefined;
+	courseData?: Course | undefined;
 	subjects: Subject[] | undefined;
 	teachers: Teacher[] | undefined;
-	updateCourse: (id: string, course: Course, data: FormData | null) => void;
+	saveCourse: (...args: any[]) => void;
 	courseErrors: any,
+	isCourseLoading: boolean
 }
 
-const CoursePage: React.FC<ICoursePage> = ({ courseData, subjects, teachers, updateCourse, courseErrors}) => {
+const CoursePage: React.FC<ICoursePage> = ({ courseData, isCourseLoading, subjects, teachers, saveCourse, courseErrors}) => {
 	const [course, setCourse] = useState<Course | null>(null);
 	const [, setUpdated] = useState();
 	const [isChanged, setIsChanged] = useState<boolean>(false);
 	const previewRef = useRef<HTMLInputElement>(null);
 	const [previewPhoto, setPreviewPhoto] = useState<File | null>(null);
-	const [status, setStatus] = useState<string| null>(null);
 
 	useEffect(() => {
 		if (courseData) {
@@ -50,14 +51,7 @@ const CoursePage: React.FC<ICoursePage> = ({ courseData, subjects, teachers, upd
 		if (course) {
 			const formData = new FormData();
 			if (previewPhoto) formData.append('image', previewPhoto);
-			updateCourse(course._id, course, formData);
-			if(!courseErrors) {
-				setIsChanged(false);
-				setStatus('Курс обновлен');
-			}
-			else {
-				setStatus('Ошибка!')
-			}
+			saveCourse(course._id, course, formData);
 		}
 	};
 
@@ -69,10 +63,13 @@ const CoursePage: React.FC<ICoursePage> = ({ courseData, subjects, teachers, upd
 			setUpdated({});
 		}
 	};
+	const renderAlert = () => {
+		return <Alert type={courseErrors ? 'error': 'success'} message={courseErrors}/>
+	}
 
 	return course ? (
 		<div className="course">
-			{status && <div>{status}</div>}
+			{!isCourseLoading && courseErrors && renderAlert()}
 			<div className="course__title">
 				<input type='text' className="heading__h2" value={course.title} onChange={(e) => defaultChange('title', e.target.value)}
 				/>
@@ -143,7 +140,7 @@ const CoursePage: React.FC<ICoursePage> = ({ courseData, subjects, teachers, upd
 									onChange={(e) => defaultChange('type', e.target.value)}
 					>
 						<option value={CourseTypes.MASTER}>Мастер курс</option>
-						<option value={CourseTypes.COURSES}>Спецкурс</option>
+						<option value={CourseTypes.SMART}>SMART</option>
 					</select>
 					<select
 						className='ui-select'

@@ -90,8 +90,9 @@ export interface ICourse {
 }
 
 export enum CourseTypes {
-	MASTER = 'MASTER',
-	COURSES = 'COURSES',
+	MASTER = '0',
+	SMART = '1',
+	LITE = '2',
 }
 
 export interface IHomeWork {

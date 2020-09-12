@@ -59,7 +59,7 @@ export const getCourses = () => (dispatch: Dispatch<AppActionType>) => {
 		});
 };
 
-export const addCourses = () => (dispatch: Dispatch<AppActionType>) => {
+export const addCourse = () => (dispatch: Dispatch<AppActionType>) => {
 	dispatch(courseLoading());
 	axios
 		.post('/courses/add')
@@ -78,11 +78,19 @@ export const updateCourse = (id: string, course: Course, data: FormData) => (
 	axios
 		.put(`/courses/update/${id}`, data, { params: course })
 		.then((res) => {
+			dispatch(courseErr(res.data));
 			dispatch(courseUpdate(res.data));
 		})
 		.catch((err) => {
-			console.log(err.message);
-			dispatch(courseErr(err.message));
+			if (err.response.data === 'LIMIT_FILE_SIZE') {
+				dispatch(
+					courseErr(
+						'Вы загружаете слишком большой файл. Размер файла должен быть до 10 Мб'
+					)
+				);
+			} else {
+				dispatch(courseErr(err.message));
+			}
 		});
 };
 
