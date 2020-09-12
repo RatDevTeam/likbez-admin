@@ -38,7 +38,24 @@ export const getMainMenuList = (): any[] => {
 			label: 'Дом',
 			submenu: [{ id: 1, routerName: 'home.add', label: 'Добавить курс' }],
 		},
+		{
+			id: 3,
+			routerName: 'users',
+			label: 'Пользователи',
+		},
 	];
+};
+export const renderColorStyle = (number: number) => {
+	switch (number) {
+		case 0:
+			return 'red';
+		case 1:
+			return 'green';
+		case 2:
+			return 'cyan';
+		default:
+			return 'yellow';
+	}
 };
 
 export const getList = (collection: any[], routerName: string): ListItem[] =>

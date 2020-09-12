@@ -30,7 +30,7 @@ export const userErr = (payload: any): AppActionType => ({
 export const getUsers = () => (dispatch: Dispatch<AppActionType>) => {
 	dispatch(userLoading());
 	axios
-		.get('/users/')
+		.get('/users')
 		.then((res) => dispatch(userSuccess(res.data)))
 		.catch((err) => dispatch(userErr(err)));
 };

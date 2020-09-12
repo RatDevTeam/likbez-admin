@@ -129,6 +129,32 @@ button {
     color: $green;
   }
 }
+.ui-href {
+  text-decoration: none;
+  font-weight: 500;
+  color: $green;
+}
+.ui-tag {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 35px;
+  padding: 10px;
+  width: min-content;
+  white-space: nowrap;
+  font-size: 16px;
+  box-sizing: border-box;
+  color: white;
+  &.red {
+    background-color: $status-error;
+  }&.green {
+    background-color: $status-ok;
+  }&.yellow {
+    background-color: $status-warning;
+  }&.teal {
+    background-color: $green;
+  }
+}
 #root {
   display: flex;
   overflow: hidden;
