@@ -1,19 +1,9 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 
 const Auth: React.FC = () => {
 	const [login, setLogin] = useState();
 	const [password, setPassword] = useState();
-	const handleLogin = () => {
-		axios
-			.post(
-				'/auth/login',
-				{ email: login, password },
-				{ withCredentials: true }
-			)
-			.then((res) => console.log(res))
-			.catch((err) => console.log(err));
-	};
+	const handleLogin = () => {};
 	return (
 		<div>
 			<div>
@@ -28,7 +18,9 @@ const Auth: React.FC = () => {
 					value={password}
 					onChange={(event) => setPassword(event.target.value)}
 				/>
-				<button onClick={() => handleLogin()}>LOGIn</button>
+				<button type="button" onClick={() => handleLogin()}>
+					LOGIn
+				</button>
 			</div>
 		</div>
 	);

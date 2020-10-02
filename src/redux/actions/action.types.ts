@@ -105,7 +105,7 @@ export interface AuthLoading {
 
 export interface AuthSuccess {
 	type: AuthActions.AUTH_SUCCESS;
-	payload: User;
+	payload: { token: string, user: User };
 }
 
 export interface AuthErr {
@@ -113,7 +113,21 @@ export interface AuthErr {
 	payload: any;
 }
 
-export type AuthTypes = AuthLoading | AuthSuccess | AuthErr;
+export interface AuthRefreshToken {
+	type: AuthActions.AUTH_REFRESH_TOKEN;
+	payload: string;
+}
+
+export interface AuthLogout {
+	type: AuthActions.AUTH_LOGOUT;
+}
+
+export type AuthTypes =
+	| AuthLoading
+	| AuthSuccess
+	| AuthErr
+	| AuthRefreshToken
+	| AuthLogout;
 
 export type AppActionType =
 	| CourseTypes

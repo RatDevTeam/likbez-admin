@@ -4,6 +4,7 @@ export interface IUserReducer extends Reducer<User[]> {}
 
 export interface IAuthReducer extends Reducer<User | null> {
 	authorized: boolean;
+	token: string | null;
 }
 
 export class UserLoginData implements IUserLoginData {
