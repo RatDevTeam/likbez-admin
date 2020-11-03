@@ -1,0 +1,53 @@
+@import '~Styles/variables';
+
+.side-bar {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  height: 100vh;
+  background-color: rgba($grey-blue, 0.5);
+  color: $dark-blue;
+  padding-top: 20px;
+  box-sizing: border-box;
+
+  &__logo {
+    background: no-repeat center/50% $img-likbez-logo;
+    height: 80px;
+    margin: 20px 0;
+  }
+
+  &__item {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    &__el {
+      width: 100%;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-bottom: 1px solid $white;
+      cursor: pointer;
+      &[data-no-active="true"] {
+        &:hover {
+          background-color: $accent-red;
+          color: $white;
+        }
+      }
+    }
+    &__sub {
+      display: none;
+    }
+    &[data-sub="true"] {
+      background-color: $green;
+      .side-bar__item__sub {
+        display: flex;
+      }
+    }
+    &:hover {
+      background-color: $green;
+    }
+  }
+
+}
