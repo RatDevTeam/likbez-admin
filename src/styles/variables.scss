@@ -1,4 +1,5 @@
-$white: #FFFFFF;
+/* Colours */
+$white: #FFF;
 $grey-blue: #C1CFDA;
 $grey-text: #979797;
 $dark-grey-text: #444444;
@@ -8,5 +9,12 @@ $accent-red: #FF5A5F;
 $dark-red: #C81D25;
 $saturated-red: #FF4040;
 
-/** Images */
+$status-ok: #00c781;
+$status-ok-pressed: #00AC9C;
+$status-error: #FF4040;
+$status-warning: #FFAA15;
+
+  /** Images */
 $img-likbez-logo: url('~Public/likbez-original-for-web.svg');
+$start: url('~Public/knight.svg');
+$img-likbez-empty-courses: url('~/Public/bg-courses.svg');

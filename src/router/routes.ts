@@ -9,4 +9,5 @@ export default [
 			{ name: 'add', path: '/add' },
 		],
 	},
+	{ name: 'users', path: '/users' },
 ];

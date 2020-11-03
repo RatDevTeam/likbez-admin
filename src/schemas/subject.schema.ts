@@ -17,6 +17,10 @@ export class Subject implements ISubject {
 		this.title = title;
 		this.type = type;
 	}
+
+	static equals(a: Subject, b: Subject) {
+		return a.color === b.color && a.title === b.title && a.type === b.type;
+	}
 }
 
 export interface ISubject {
