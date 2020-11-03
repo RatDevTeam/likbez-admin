@@ -23,7 +23,6 @@ module.exports = {
 	devServer: {
 		historyApiFallback: true,
 	},
-	devtool: "source-map",
 	module: {
 		rules: [
 			// we use babel-loader to load our jsx and tsx files
