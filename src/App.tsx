@@ -5,6 +5,7 @@ import Login from './components/Login/Login';
 import SideBar from './components/SideBar/SideBar';
 
 const CoursesPage = lazy(() => import('./containers/CoursesPage'));
+const UsersPage = lazy(() => import('./containers/UsersContainer'));
 
 const App: React.FC = () => {
 	const { route } = useRouteNode('');
@@ -16,6 +17,9 @@ const App: React.FC = () => {
 		}
 		if (topRouteName === 'courses') {
 			return <CoursesPage />;
+		}
+		if (topRouteName === 'users') {
+			return <UsersPage />;
 		}
 		return <h1>Пусто</h1>;
 	};

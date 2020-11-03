@@ -8,10 +8,13 @@ export const convertDate = (date: string): any => {
 			day: '2-digit',
 		}).format(new Date(date));
 	}
-	return 'Дата отстутствует';
+	return 'Дата отсутствует';
+};
+export const compareDates = (date1: string, date2: string): boolean => {
+	return convertDate(date1) === convertDate(date2);
 };
 
-export const isNotNulAdnUndefined = (item: any): boolean =>
+export const isNotNullAndUndefined = (item: any): boolean =>
 	item !== undefined && item !== null;
 
 export const inNotEmptyArray = (item: any[]): boolean => {
@@ -35,19 +38,36 @@ export const getMainMenuList = (): any[] => {
 			label: 'Дом',
 			submenu: [{ id: 1, routerName: 'home.add', label: 'Добавить курс' }],
 		},
+		{
+			id: 3,
+			routerName: 'users',
+			label: 'Пользователи',
+		},
 	];
 };
+export const renderColorStyle = (number: number) => {
+	switch (number) {
+		case 0:
+			return 'red';
+		case 1:
+			return 'green';
+		case 2:
+			return 'cyan';
+		default:
+			return 'yellow';
+	}
+};
 
-export const getList = (collection: any[], routerName: string): ListItem[] => {
-	return collection.map(
+export const getList = (collection: any[], routerName: string): ListItem[] =>
+	collection.map(
 		(el) =>
 			new ListItem({
 				id: el._id,
 				title: el.title ? el.title : el.name,
+				color: el.subject.color,
 				routerName,
 			})
 	);
-};
 
 export const getCookie = (name: string) => {
 	const matches = document.cookie.match(

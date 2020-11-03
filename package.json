@@ -95,7 +95,8 @@
     "redux-thunk": "^2.3.0",
     "router5": "^8.0.1",
     "router5-plugin-browser": "latest",
-    "router5-plugin-logger": "latest"
+    "router5-plugin-logger": "latest",
+    "styled-components": "^5.1.1"
   },
   "prettier": {
     "useTabs": true,
