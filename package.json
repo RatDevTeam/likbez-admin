@@ -81,9 +81,12 @@
     "webpack-dev-server": "^3.10.3"
   },
   "dependencies": {
+    "@devexpress/dx-react-core": "^2.7.3",
+    "@devexpress/dx-react-grid": "^2.7.3",
+    "@devexpress/dx-react-grid-bootstrap4": "^2.7.3",
     "@types/jsonwebtoken": "^8.5.0",
     "axios": "^0.19.2",
-    "grommet-icons": "^4.4.0",
+    "bootstrap": "^4.5.3",
     "jsonwebtoken": "^8.5.1",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",

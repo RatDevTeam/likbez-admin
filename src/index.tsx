@@ -7,6 +7,9 @@ import { Store } from './redux/store';
 import createRouter from './router/create-router';
 import App from './App';
 
+import 'bootstrap/scss/bootstrap.scss';
+import '@devexpress/dx-react-grid-bootstrap4/dist/dx-react-grid-bootstrap4.css';
+
 axios.defaults.baseURL = 'http://localhost:5000/api';
 
 axios.interceptors.request.use(

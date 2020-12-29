@@ -3,8 +3,9 @@ import axios from 'axios';
 import { AppActionType } from './action.types';
 import {
 	User,
-	UserLoginData,
 	UserRegistrData,
+	UserRole,
+	UserStatus,
 } from '../../schemas/user.schema';
 
 export enum UserActions {
@@ -45,12 +46,12 @@ export const register = (userInfo: UserRegistrData) => (
 		.catch((err) => dispatch(userErr(err)));
 };
 
-export const login = (loginInfo: UserLoginData) => (
+export const editUser = (id: string, role: UserRole, status: UserStatus) => (
 	dispatch: Dispatch<AppActionType>
 ) => {
 	dispatch(userLoading());
 	axios
-		.post('/users/login', loginInfo)
+		.post(`/users/change/${id}`, { role, status })
 		.then((res) => dispatch(userSuccess(res.data)))
 		.catch((err) => dispatch(userErr(err)));
 };

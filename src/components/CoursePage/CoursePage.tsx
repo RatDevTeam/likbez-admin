@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './styles.scss';
-import { DocumentUpload, Edit } from 'grommet-icons';
+// import { DocumentUpload, Edit } from 'grommet-icons';
 import { Course, CourseTypes } from '../../schemas/course.schema';
 import { Subject } from '../../schemas/subject.schema';
 import { Teacher } from '../../schemas/teacher.schema';
@@ -74,7 +74,7 @@ const CoursePage: React.FC<ICoursePage> = ({ courseData, isCourseLoading, subjec
 				<input type='text' className="heading__h2" value={course.title} onChange={(e) => defaultChange('title', e.target.value)}
 				/>
 				{isChanged && (<div className='course__title__info'>
-					<Edit color='#C1CFDA' />
+					{/*<Edit color='#C1CFDA' />*/}
 					<span className='course__title__info__message'>есть несохраненные изменения</span>
 				</div>)}
 			</div>
@@ -88,7 +88,7 @@ const CoursePage: React.FC<ICoursePage> = ({ courseData, isCourseLoading, subjec
 							onClick={() => previewRef.current && previewRef.current.click()}
 							onKeyDown={() => previewRef.current && previewRef.current.click()}>
 							<div className='course__img__icon'>
-								<DocumentUpload color={!previewPhoto ? '#C1CFDA' : '#FFF'} size='large' />
+								{/*<DocumentUpload color={!previewPhoto ? '#C1CFDA' : '#FFF'} size='large' />*/}
 							</div>
 							<img
 								className='course__img__preview'

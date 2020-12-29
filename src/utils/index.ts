@@ -1,4 +1,5 @@
 import { ListItem } from '../schemas/list.schema';
+import { UserRole, UserStatus } from '../schemas/user.schema';
 
 export const convertDate = (date: string): any => {
 	if (date) {
@@ -45,16 +46,24 @@ export const getMainMenuList = (): any[] => {
 		},
 	];
 };
-export const renderColorStyle = (number: number) => {
-	switch (number) {
-		case 0:
-			return 'red';
-		case 1:
-			return 'green';
-		case 2:
-			return 'cyan';
+export const convertUserRoleAndStatus = (value: string) => {
+	switch (value) {
+		case UserRole.ADMIN:
+			return 'Админ';
+		case UserRole.TEACHER:
+			return 'Учитель';
+		case UserRole.TUTOR:
+			return 'Тьютор';
+		case UserRole.STUDENT:
+			return 'Студент';
+		case UserStatus.ACTIVE:
+			return 'Активирован';
+		case UserStatus.BLOCKED:
+			return 'Заблокирован';
+		case UserStatus.CREATED:
+			return 'Создан';
 		default:
-			return 'yellow';
+			return 'NONE';
 	}
 };
 

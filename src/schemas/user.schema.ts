@@ -43,9 +43,9 @@ export interface IRegistrData extends IUserLoginData {
 export class User extends UserRegistrData implements IUser {
 	_id: string;
 
-	status: UserStatus;
+	role: UserRole;
 
-	activated: boolean;
+	status: UserStatus;
 
 	constructor({
 		_id,
@@ -53,25 +53,31 @@ export class User extends UserRegistrData implements IUser {
 		lastName,
 		email,
 		password,
+		role,
 		status,
-		activated,
 	}: IUser) {
 		super({ firstName, lastName, email, password });
 		this._id = _id;
+		this.role = role;
 		this.status = status;
-		this.activated = activated;
 	}
 }
 
 export interface IUser extends IRegistrData {
 	_id: string;
+	role: UserRole;
 	status: UserStatus;
-	activated: boolean;
+}
+
+export enum UserRole {
+	ADMIN = 'admin',
+	TEACHER = 'teacher',
+	TUTOR = 'tutor',
+	STUDENT = 'student',
 }
 
 export enum UserStatus {
-	ADMIN,
-	TEACHER,
-	TUTOR,
-	STUDENT,
+	CREATED = 'created',
+	ACTIVE = 'active',
+	BLOCKED = 'blocked',
 }

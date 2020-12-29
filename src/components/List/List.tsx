@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './styles.scss';
 import { useRoute } from 'react-router5';
-import { AddCircle } from 'grommet-icons';
+// import { AddCircle } from 'grommet-icons';
 import { ListItem } from '../../schemas/list.schema';
 
 interface IList {
@@ -41,7 +41,7 @@ const List: React.FC<IList> = ({ list, onAddTolist }) => {
 						localStorage.removeItem('activeId');
 					}}
 				>
-					<AddCircle color="white" />
+					{/*<AddCircle color="white" />*/}
 					<span className="list__addButton--text">Добавить</span>
 				</div>
 			)}

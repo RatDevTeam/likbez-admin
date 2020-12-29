@@ -1,7 +1,6 @@
 import React from 'react';
 import './styles.scss';
 import CoursePage from '../CoursePage/CoursePage';
-import { Course } from '../../schemas/course.schema';
 import { Teacher } from '../../schemas/teacher.schema';
 
 interface ICourseAdd {
